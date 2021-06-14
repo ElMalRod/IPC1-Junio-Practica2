@@ -8,10 +8,12 @@ public class Practica2 {
     Random Aleatoreo = new Random();
     Scanner sc = new Scanner(System.in);
 
-    int PocisionPelicula = 2;
+    int PosicionPelicula = 2;
     int PosicionCliente = 2;
     int TotalCliente = 3;
     int TotalPeli = 3;
+    int Suspenso = 0, Accion = 0, Infantil = 0, Prestada = 0;
+    int RegistroPrestada[] = new int[100];
 
     String NombreCliente[] = new String[100];
     int IdCliente[] = new int[100];
@@ -75,7 +77,7 @@ public class Practica2 {
                     AgregarPeli();
                     break;
                 case 5:
-
+                    OrdenPeli();
                     break;
                 case 6:
                     AgregarCliente();
@@ -97,22 +99,22 @@ public class Practica2 {
 
     /*Metodo Para Agregar Nuevas peliculas al Arreglo*/
     public void AgregarPeli() {
-        PocisionPelicula++;
+        PosicionPelicula++;
         System.out.println("Ingrese Nombre de la Pelicula:");
-        NombrePelicula[PocisionPelicula] = sc.next();
+        NombrePelicula[PosicionPelicula] = sc.next();
         System.out.println("Ingrese Categoria: ");
-        Categoria[PocisionPelicula] = sc.next();
-        IdPelicula[PocisionPelicula] = TotalPeli + 1;
+        Categoria[PosicionPelicula] = sc.next();
+        IdPelicula[PosicionPelicula] = TotalPeli + 1;
         System.out.println("Id Agregado");
         System.out.println("Ingrese Año: ");
-        Anio[PocisionPelicula] = sc.nextInt();
-        Disponible[PocisionPelicula] = true;
+        Anio[PosicionPelicula] = sc.nextInt();
+        Disponible[PosicionPelicula] = true;
         TotalPeli++;
     }
 
     /*Metodo Para Visualizar las peliculas del Arreglo*/
     public void MostrarPeli() {
-        for (int i = 0; i <= PocisionPelicula; i++) {
+        for (int i = 0; i <= PosicionPelicula; i++) {
             System.out.println("NO." + (i + 1) + " ");
             System.out.println("Pelicula: " + NombrePelicula[i]);
             System.out.println("Categoria: " + Categoria[i]);
@@ -214,6 +216,7 @@ public class Practica2 {
             if (seleccion == IdCliente[i]) {
                 System.out.println(NombreCliente[i] + " Inicio sesion");
                 PrestamoCliente[i] = true;
+                Idclienteprestado[i] = IdCliente[i];
             }
         }
     }
@@ -225,15 +228,17 @@ public class Practica2 {
         MostrarPeli();
         System.out.println("Seleccione Pelicula:");
         seleccion = sc.nextInt();
-        for (int i = 0; i <= PocisionPelicula; i++) {
+        for (int i = 0; i <= PosicionPelicula; i++) {
             if (seleccion == IdPelicula[i]) {
                 System.out.println(NombrePelicula[i] + " Prestada");
                 Disponible[i] = false;
                 Idpeliculaprestada[i] = IdPelicula[i];
-                Idclienteprestado[i] = IdCliente[i];
+                RegistroPrestada[i]++;
 
             }
+
         }
+        Prestada++;
     }
 
     /*Metodo que contiene dos funciones importantes y son utilizadas para este metodo*/
@@ -272,6 +277,25 @@ public class Practica2 {
         }
     }
 
+    public void OrdenPeli() {
+        System.out.println("Categorias:");
+        for (int i = 0; i <= PosicionPelicula; i++) {
+            if (Categoria[i] == "Accion") {
+                System.out.println("Accion");
+                System.out.println(NombrePelicula[i]);
+            }
+            if (Categoria[i] == "Suspenso") {
+                System.out.println("Suspenso:");
+                System.out.println(NombrePelicula[i]);
+            }
+            if (Categoria[i] == "Infatil") {
+                System.out.println("Infantil");
+                System.out.println(NombrePelicula[i]);
+            }
+        }
+
+    }
+
     /*Metodo del Menu de reportes*/
     public void MenuReportes() {
         boolean salir = false;
@@ -287,23 +311,77 @@ public class Practica2 {
             System.out.println("6. Regresar");
             System.out.println("Escribe una de las opciones");
             opcion = sc.nextInt();
-
+            /*Switch para ingresar a las opciones del menu de reportes
+            en cada case va la logica para ya no inclir mas metodos*/
             switch (opcion) {
                 case 1:
-
+                    System.out.println("Categorias:");
+                    for (int i = 0; i <= PosicionPelicula; i++) {
+                        if (Categoria[i] == "Accion") {
+                            Accion++;
+                        }
+                    }
+                    for (int i = 0; i <= PosicionPelicula; i++) {
+                        if (Categoria[i] == "Suspenso") {
+                            Suspenso++;
+                        }
+                    }
+                    for (int i = 0; i <= PosicionPelicula; i++) {
+                        if (Categoria[i] == "Infantil") {
+                            Infantil++;
+                        }
+                    }
+                    System.out.println("Accion");
+                    System.out.println(Accion);
+                    System.out.println("Suspenso:");
+                    System.out.println(Suspenso);
+                    System.out.println("Infantil:");
+                    System.out.println(Infantil);
                     break;
                 case 2:
-
+                    System.out.println("Categorias:");
+                    for (int i = 0; i <= PosicionPelicula; i++) {
+                        if (Categoria[i] == "Accion") {
+                            System.out.println("Accion");
+                            System.out.println(NombrePelicula[i]);
+                        }
+                        if (Categoria[i] == "Suspenso") {
+                            System.out.println("Suspenso:");
+                            System.out.println(NombrePelicula[i]);
+                        }
+                        if (Categoria[i] == "Infatil") {
+                            System.out.println("Infantil");
+                            System.out.println(NombrePelicula[i]);
+                        }
+                    }
                     break;
 
                 case 3:
-
+                    System.out.println("Peliculas Prestadas");
+                    for (String Aux : NombrePelicula) {
+                        System.out.println(Aux);
+                    }
+                    System.out.println("Prestamos:" + Prestada);
                     break;
                 case 4:
+                    for (int i = 0; i < TotalPeli; i++) {
+                        for (int j = 0; j < TotalPeli; j++) {
+                            if (RegistroPrestada[i] > RegistroPrestada[j]) {
+                                System.out.println(NombrePelicula[i]);
+                            }
 
+                        }
+                    }
                     break;
                 case 5:
+                    for (int i = 0; i < TotalPeli; i++) {
+                        for (int j = 0; j < TotalPeli; j++) {
+                            if (RegistroPrestada[i] < RegistroPrestada[j]) {
+                                System.out.println(NombrePelicula[i]);
+                            }
 
+                        }
+                    }
                     break;
                 case 6:
                     Menu();
