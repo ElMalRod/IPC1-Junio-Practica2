@@ -6,9 +6,11 @@ public class Practica2 {
 
     Random Aleatoreo = new Random();
     Scanner sc = new Scanner(System.in);
-    int contadorpeliculas = 3;
-    int posiciones = 2;
-    int posicionCliente = 0;
+
+    int PocisionPelicula = 2;
+    int PosicionCliente = 2;
+    int TotalCliente=3;
+    int TotalPeli=3;
 
     String NombreCliente[] = new String[100];
     int IdCliente[] = new int[100];
@@ -18,12 +20,14 @@ public class Practica2 {
     String NombrePelicula[] = new String[100];
     String Categoria[] = new String[6];
     int IdPelicula[] = new int[100];
-    int Ano[] = new int[100];
+    int[] Anio = new int[100];
     boolean Disponible[] = new boolean[100];
 
     int Idpeliculaprestada[] = new int[100];
     int Idclienteprestado[] = new int[100];
     int Dias[] = new int[100];
+    
+    String GuardarPeli[]= new String [100];
 
     public static void main(String[] args) {
 
@@ -31,26 +35,8 @@ public class Practica2 {
     }
 
     public Practica2() {
-
-        NombrePelicula[0] = "Up!";
-        NombrePelicula[1] = "Avengers";
-        NombrePelicula[2] = "IT";
-
-        Categoria[0] = "Infantil";
-        Categoria[1] = "Accion";
-        Categoria[2] = "Suspenso";
-
-        IdPelicula[0] = 1;
-        IdPelicula[1] = 2;
-        IdPelicula[2] = 3;
-
-        Ano[0] = 2000;
-        Ano[1] = 2013;
-        Ano[2] = 1998;
-
-        Disponible[0] = true;
-        Disponible[1] = true;
-        Disponible[2] = true;
+        InicializadorCliente();
+        inicializadorPeli();
         Menu();
     }
 
@@ -97,7 +83,7 @@ public class Practica2 {
                     MostrarCliente();
                     break;
                 case 8:
-                    salir = true;
+
                     break;
 
                 default:
@@ -109,34 +95,26 @@ public class Practica2 {
     }
 
     public void AgregarPeli() {
-        posiciones++;
-        int num;
+        PocisionPelicula++;
         System.out.println("Ingrese Nombre de la Pelicula:");
-        NombrePelicula[posiciones] = sc.next();
+        NombrePelicula[PocisionPelicula] = sc.next();
         System.out.println("Ingrese Categoria: ");
-        Categoria[posiciones] = sc.next();
-        num = Aleatoreo.nextInt(100);
-        for (int i = 0; i <= posiciones; i++) {
-            if (IdPelicula[i] == num) {
-                System.out.println("Id Agregado");
-
-            } else if (IdPelicula[i] != num) {
-                IdPelicula[posiciones] = num;
-            }
-        }
-
+        Categoria[PocisionPelicula] = sc.next();
+        IdPelicula[PocisionPelicula] =  TotalPeli+ 1;
+        System.out.println("Id Agregado");
         System.out.println("Ingrese Año: ");
-        Ano[posiciones] = sc.nextInt();
-        Disponible[posiciones] = true;
+        Anio[PocisionPelicula] = sc.nextInt();
+        Disponible[PocisionPelicula] = true;
+        TotalPeli++;
     }
 
     public void MostrarPeli() {
-        for (int i = 0; i <= posiciones; i++) {
+        for (int i = 0; i <= PocisionPelicula; i++) {
             System.out.println("NO." + (i + 1) + " ");
             System.out.println("Pelicula: " + NombrePelicula[i]);
             System.out.println("Categoria: " + Categoria[i]);
             System.out.println("ID: " + IdPelicula[i]);
-            System.out.println("Año: " + Ano[i]);
+            System.out.println("Año: " + Anio[i]);
             if (Disponible[i] == true) {
                 System.out.println("Disponiblirdad: Disponible");
             } else {
@@ -147,26 +125,40 @@ public class Practica2 {
         }
     }
 
+    public void inicializadorPeli() {
+        NombrePelicula[0] = "Up!";
+        Categoria[0] = "Infantil";
+        IdPelicula[0] = 1;
+        Anio[0] = 2000;
+        Disponible[0] = true;
+
+        NombrePelicula[1] = "Avengers";
+        Categoria[1] = "Accion";
+        IdPelicula[1] = 2;
+        Anio[1] = 2013;
+        Disponible[1] = true;
+
+        NombrePelicula[2] = "IT";
+        Categoria[2] = "Suspenso";
+        IdPelicula[2] = 3;
+        Anio[2] = 1998;
+        Disponible[2] = true;
+
+    }
+
     public void AgregarCliente() {
-        int num;
+        PosicionCliente++;
         System.out.println("Ingrese su nombre Nombre: ");
-        NombreCliente[posicionCliente] = sc.next();
-        num = Aleatoreo.nextInt(100);
-        for (int i = 0; i <= posiciones; i++) {
-            if (IdCliente[i] != num) {
-                IdCliente[posiciones] = num;
-            } else if (IdCliente[i] == num) {
-                 System.out.println("Id copiado");
-            }
-        }
+        NombreCliente[PosicionCliente] = sc.next();
+        IdCliente[PosicionCliente] = TotalCliente+1;
         System.out.println("Ingrese su Numero de Telefono: ");
-        Tel[posicionCliente] = sc.nextInt();
-        PrestamoCliente[posicionCliente] = false;
-        posicionCliente++;
+        Tel[PosicionCliente] = sc.nextInt();
+        PrestamoCliente[PosicionCliente] = false;
+        TotalCliente++;
     }
 
     public void MostrarCliente() {
-        for (int i = 0; i <= posicionCliente; i++) {
+        for (int i = 0; i <= PosicionCliente; i++) {
             System.out.println("NO-" + (i + 1));
             System.out.println("Nombre: " + NombreCliente[i]);
             System.out.println("ID: " + IdCliente[i]);
@@ -174,11 +166,29 @@ public class Practica2 {
             if (PrestamoCliente[i] == false) {
                 System.out.println("Disponiblirdad: Sin Peliculas");
             } else {
-                System.out.println("Disponiblirdad: Peliculas en propiedad");
+                System.out.println("Disponiblirdad: Pelicula en propiedad: ");
             }
             System.out.println("------------------------------------");
 
         }
+
+    }
+
+    public void InicializadorCliente() {
+        IdCliente[0] = 1;
+        NombreCliente[0] = "Oliver Sierra";
+        Tel[0] = 45123698;
+        PrestamoCliente[0] = false;
+
+        IdCliente[1] = 2;
+        NombreCliente[1] = "Emilio Maldonado";
+        Tel[1] = 35396898;
+        PrestamoCliente[1] = false;
+
+        IdCliente[2] = 3;
+        NombreCliente[2] = "Bryan Santos";
+        Tel[2] = 34546899;
+        PrestamoCliente[2] = false;
 
     }
 
@@ -187,31 +197,79 @@ public class Practica2 {
         int seleccion;
         System.out.println("Seleccione Cliente:");
         seleccion = sc.nextInt();
-        for (int i = 0; i < posicionCliente; i++) {
+        for (int i = 0; i <= PosicionCliente; i++) {
             if (seleccion == IdCliente[i]) {
-                System.out.println(NombreCliente[i] + " Incio sesion");
+                System.out.println(NombreCliente[i] + " Inicio sesion");
+                PrestamoCliente[i] = true;
             }
         }
     }
-    public void EscogerPelicula(){
-         int seleccion;
-         MostrarPeli();
+
+    public void EscogerPelicula() {
+        int seleccion;
+        MostrarPeli();
         System.out.println("Seleccione Pelicula:");
         seleccion = sc.nextInt();
-        for (int i = 0; i < posiciones; i++) {
+        for (int i = 0; i <= PocisionPelicula; i++) {
             if (seleccion == IdPelicula[i]) {
-                System.out.println(NombrePelicula[i] + "Prestada");
+                System.out.println(NombrePelicula[i]+" Prestada");
                 Disponible[i] = false;
-                PrestamoCliente[i] = true;
                 
             }
         }
     }
+
     public void Prestamo() {
-       
+
         EscogerCliente();
         EscogerPelicula();
-     
+
+    }
+    
+    public void Devolucion(){
+        EscogerCliente();
+        
+        
+    }
+
+    public void MenuReportes() {
+        boolean salir = false;
+        int opcion; //Guardaremos la opcion del usuario
+
+        while (!salir) {
+
+            System.out.println("1. Cantidad de Peliculas por categoria");
+            System.out.println("2. Peliculas por categoria");
+            System.out.println("3. Peliculas y cantidad de veces prestada");
+            System.out.println("4. Pelicula mas prestada");
+            System.out.println("5. Pelicula menos prestada");
+            System.out.println("Escribe una de las opciones");
+            opcion = sc.nextInt();
+
+            switch (opcion) {
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+
+                    break;
+
+                default:
+                    System.out.println("Solo números entre 1 y 5");
+            }
+
+        }
+
     }
 
 }
