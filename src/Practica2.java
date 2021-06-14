@@ -4,13 +4,14 @@ import java.util.*;
 
 public class Practica2 {
 
+    //* Declaramos las variables globales */
     Random Aleatoreo = new Random();
     Scanner sc = new Scanner(System.in);
 
     int PocisionPelicula = 2;
     int PosicionCliente = 2;
-    int TotalCliente=3;
-    int TotalPeli=3;
+    int TotalCliente = 3;
+    int TotalPeli = 3;
 
     String NombreCliente[] = new String[100];
     int IdCliente[] = new int[100];
@@ -26,20 +27,21 @@ public class Practica2 {
     int Idpeliculaprestada[] = new int[100];
     int Idclienteprestado[] = new int[100];
     int Dias[] = new int[100];
-    
-    String GuardarPeli[]= new String [100];
 
     public static void main(String[] args) {
 
         Practica2 eje = new Practica2();
     }
 
+    /*Metodo Principal que inicializa  los arreglos y el Menu*/
     public Practica2() {
         InicializadorCliente();
         inicializadorPeli();
         Menu();
     }
 
+    /*Metodo Menu contiene la mayor parte de los metodos y es lo primero que
+    visualiza el usuario*/
     public void Menu() {
         boolean salir = false;
         int opcion; //Guardaremos la opcion del usuario
@@ -61,10 +63,9 @@ public class Practica2 {
             switch (opcion) {
                 case 1:
                     Prestamo();
-
                     break;
                 case 2:
-
+                    Devolucion();
                     break;
 
                 case 3:
@@ -83,7 +84,7 @@ public class Practica2 {
                     MostrarCliente();
                     break;
                 case 8:
-
+                    MenuReportes();
                     break;
 
                 default:
@@ -94,13 +95,14 @@ public class Practica2 {
 
     }
 
+    /*Metodo Para Agregar Nuevas peliculas al Arreglo*/
     public void AgregarPeli() {
         PocisionPelicula++;
         System.out.println("Ingrese Nombre de la Pelicula:");
         NombrePelicula[PocisionPelicula] = sc.next();
         System.out.println("Ingrese Categoria: ");
         Categoria[PocisionPelicula] = sc.next();
-        IdPelicula[PocisionPelicula] =  TotalPeli+ 1;
+        IdPelicula[PocisionPelicula] = TotalPeli + 1;
         System.out.println("Id Agregado");
         System.out.println("Ingrese Año: ");
         Anio[PocisionPelicula] = sc.nextInt();
@@ -108,6 +110,7 @@ public class Practica2 {
         TotalPeli++;
     }
 
+    /*Metodo Para Visualizar las peliculas del Arreglo*/
     public void MostrarPeli() {
         for (int i = 0; i <= PocisionPelicula; i++) {
             System.out.println("NO." + (i + 1) + " ");
@@ -125,6 +128,9 @@ public class Practica2 {
         }
     }
 
+    /*Inicializadores
+    existe el de Pelicula y el del cliente unicamente contienen los primeros datos
+    de los arrglos y son llamados al inicio para que se carguen los datos ya credos*/
     public void inicializadorPeli() {
         NombrePelicula[0] = "Up!";
         Categoria[0] = "Infantil";
@@ -146,17 +152,19 @@ public class Practica2 {
 
     }
 
+    /*Metodo Para Agregar nuevos clientes al Arreglo */
     public void AgregarCliente() {
         PosicionCliente++;
         System.out.println("Ingrese su nombre Nombre: ");
         NombreCliente[PosicionCliente] = sc.next();
-        IdCliente[PosicionCliente] = TotalCliente+1;
+        IdCliente[PosicionCliente] = TotalCliente + 1;
         System.out.println("Ingrese su Numero de Telefono: ");
         Tel[PosicionCliente] = sc.nextInt();
         PrestamoCliente[PosicionCliente] = false;
         TotalCliente++;
     }
 
+    /*Metodo Para Visualizar los CLientes del Arreglo*/
     public void MostrarCliente() {
         for (int i = 0; i <= PosicionCliente; i++) {
             System.out.println("NO-" + (i + 1));
@@ -166,7 +174,7 @@ public class Practica2 {
             if (PrestamoCliente[i] == false) {
                 System.out.println("Disponiblirdad: Sin Peliculas");
             } else {
-                System.out.println("Disponiblirdad: Pelicula en propiedad: ");
+                System.out.println("Disponiblirdad: Pelicula en propiedad: " + Idpeliculaprestada[i]);
             }
             System.out.println("------------------------------------");
 
@@ -174,6 +182,9 @@ public class Practica2 {
 
     }
 
+    /*Inicializadores
+    existe el de Pelicula y el del cliente unicamente contienen los primeros datos
+    de los arrglos y son llamados al inicio para que se carguen los datos ya credos*/
     public void InicializadorCliente() {
         IdCliente[0] = 1;
         NombreCliente[0] = "Oliver Sierra";
@@ -192,6 +203,8 @@ public class Practica2 {
 
     }
 
+    /*Metodo que funciona para escoger cliente el cual es utilizado en la prestacion
+    de peliculas para identtificar al cliente*/
     public void EscogerCliente() {
         MostrarCliente();
         int seleccion;
@@ -205,6 +218,8 @@ public class Practica2 {
         }
     }
 
+    /*Metodo qie funciona para escoger pelicula el cual es utilizado en el prestamo
+    para identificar la pelicual y a que usuario es prestada*/
     public void EscogerPelicula() {
         int seleccion;
         MostrarPeli();
@@ -212,26 +227,52 @@ public class Practica2 {
         seleccion = sc.nextInt();
         for (int i = 0; i <= PocisionPelicula; i++) {
             if (seleccion == IdPelicula[i]) {
-                System.out.println(NombrePelicula[i]+" Prestada");
+                System.out.println(NombrePelicula[i] + " Prestada");
                 Disponible[i] = false;
-                
+                Idpeliculaprestada[i] = IdPelicula[i];
+                Idclienteprestado[i] = IdCliente[i];
+
             }
         }
     }
 
+    /*Metodo que contiene dos funciones importantes y son utilizadas para este metodo*/
     public void Prestamo() {
 
         EscogerCliente();
         EscogerPelicula();
 
     }
-    
-    public void Devolucion(){
-        EscogerCliente();
-        
-        
+
+    /*Metodo para devolver peliculas  identifica al usuario que va a devolver y tambien la pelicula
+    que va devolver regrsando estas a su estado Disponible*/
+    public void Devolucion() {
+        MostrarCliente();
+        int seleccion;
+        int seleccion2;
+        int i;
+        System.out.println("Seleccione Cliente:");
+        seleccion = sc.nextInt();
+        for (i = 0; i <= 1; i++) {
+            if (seleccion == IdCliente[i]) {
+                System.out.println(NombreCliente[i] + " Inicio sesion");
+                System.out.println(NombrePelicula[i] + " En propiedad");
+            }
+            System.out.println("Devolver Pelicula:");
+            System.out.println("1. Si   2. NO");
+            seleccion2 = sc.nextInt();
+            if (seleccion2 == 1) {
+                PrestamoCliente[i] = false;
+                Disponible[i] = true;
+
+            } else {
+                System.out.println("");
+            }
+
+        }
     }
 
+    /*Metodo del Menu de reportes*/
     public void MenuReportes() {
         boolean salir = false;
         int opcion; //Guardaremos la opcion del usuario
@@ -243,6 +284,7 @@ public class Practica2 {
             System.out.println("3. Peliculas y cantidad de veces prestada");
             System.out.println("4. Pelicula mas prestada");
             System.out.println("5. Pelicula menos prestada");
+            System.out.println("6. Regresar");
             System.out.println("Escribe una de las opciones");
             opcion = sc.nextInt();
 
@@ -262,6 +304,9 @@ public class Practica2 {
                     break;
                 case 5:
 
+                    break;
+                case 6:
+                    Menu();
                     break;
 
                 default:
